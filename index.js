@@ -3,7 +3,7 @@ const { parse } = require("csv-parse");
 const fs = require("fs");
 
 // Resulting planets Array
-const habitablePlanet = [];
+const habitablePlanets = [];
 
 // Function to check planet is habitable or not.
 function isHabitablePlanet(planet) {
@@ -25,12 +25,17 @@ fs.createReadStream("kepler_data.csv")
   )
   .on("data", (data) => {
     if (isHabitablePlanet(data)) {
-      habitablePlanet.push(data);
+      habitablePlanets.push(data);
     }
   })
   .on("error", (err) => {
     console.log(err);
   })
   .on("end", () => {
-    console.log(`${habitablePlanet.length} habitable planets found!`);
+    console.log(
+      habitablePlanets.map((planet) => {
+        return planet["kepler_name"];
+      })
+    );
+    console.log(`${habitablePlanets.length} habitable planets found!`);
   });
